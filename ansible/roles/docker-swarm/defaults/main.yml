@@ -1,0 +1,8 @@
+docker_swarm_interface: 'enp0s8'
+docker_swarm_addr: "{{ hostvars[inventory_hostname]['ansible_' + docker_swarm_interface]['ipv4']['address'] }}"
+docker_swarm_port: 2377
+
+
+docker_swarm_managers_ansible_group: 'swarm-managers'
+docker_swarm_workers_ansible_group: 'swarm-workers'
+docker_swarm_primary_manager: '{{ groups[docker_swarm_managers_ansible_group][0] }}'

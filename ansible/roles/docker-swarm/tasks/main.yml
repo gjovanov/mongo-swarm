@@ -1,0 +1,3 @@
+#- include: iptables_setup.yml
+
+- include: docker_swarm_initialized.yml

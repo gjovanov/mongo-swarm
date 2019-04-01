@@ -1,0 +1,5 @@
+docker_config_users: true
+docker_compose: true
+
+docker_users:
+  - vagrant

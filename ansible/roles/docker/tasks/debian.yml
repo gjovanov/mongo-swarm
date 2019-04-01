@@ -1,0 +1,31 @@
+- name: "Docker Debian - Adding docker repository"
+  apt_repository: repo='deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable' state=present
+  when: ansible_distribution == "Ubuntu"
+  tags: [docker]
+
+- name: "Docker Debian - Ensuring old versions of docker are purged 1"
+  apt: name=lxc-docker state=absent purge=yes
+  when: ansible_distribution == "Ubuntu"
+  tags: [docker]
+
+- name: "Docker Debian - Ensuring old versions of docker are purged 2"
+  apt: name=docker state=absent purge=yes
+  when: ansible_distribution == "Ubuntu"
+  tags: [docker]
+
+- name: "Docker Debian - Ensuring old versions of docker are purged 3"
+  apt: name=docker-engine state=absent purge=yes
+  when: ansible_distribution == "Ubuntu"
+  tags: [docker]
+
+- name: "Docker Debian - Ensuring old versions of docker are purged 4"
+  apt: name=docker.io state=absent purge=yes
+  when: ansible_distribution == "Ubuntu"
+  tags: [docker]
+  
+- name: "Docker Debian - Installing docker"
+  apt: name=docker-ce state=present update_cache=yes install_recommends=yes allow_unauthenticated=yes
+  when: ansible_distribution == "Ubuntu"
+  retries: 3
+  delay: 20
+  tags: [docker]

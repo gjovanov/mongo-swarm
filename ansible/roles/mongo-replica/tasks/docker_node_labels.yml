@@ -1,0 +1,21 @@
+- name: Mongo Replica - Checking Docker Node labels
+  shell: |
+           docker node ls -q | \
+           xargs docker node inspect -f \
+           '\{\{ .ID \}\} [\{\{ .Description.Hostname \}\}]: \{\{ range $k, $v := .Spec.Labels \}\}\{\{ $k \}\}=\{\{ $v \}\} \{\{end\}\}'
+  register: "docker_node_labels"
+  changed_when: false
+  check_mode: no
+  become: true
+  when: >
+        inventory_hostname == docker_swarm_primary_manager
+  tags: [mongo-replica]
+
+- name: Mongo Replica - Adding Docker Node lables for Mongo instances
+  shell: "docker node update --label-add mongo.replica={{ hostvars[item]['mongo'] }} $(docker node ls -q -f name={{ hostvars[item]['swarm'] }})"
+  changed_when: false
+  become: true
+  when: >
+        inventory_hostname == docker_swarm_primary_manager
+  with_items: "{{ groups['swarm-workers'] }}"
+  tags: [mongo-replica]

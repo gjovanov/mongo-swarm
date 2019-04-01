@@ -1,0 +1,5 @@
+- hosts: swarm-managers:swarm-workers
+  remote_user: vagrant
+  serial: 1
+  roles:
+    - docker-swarm

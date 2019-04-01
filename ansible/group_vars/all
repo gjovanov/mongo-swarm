@@ -1,0 +1,3 @@
+debian_version: xenial
+registry_host_dir: /vagrant/registry
+agent_user: vagrant

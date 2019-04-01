@@ -1,0 +1,84 @@
+- name: "Docker Swarm - Install `netfilter-persistent` && `iptables-persistent` packages"
+  package:
+    name: "{{item}}"
+    state: present
+  with_items:
+    - iptables-persistent
+    - netfilter-persistent
+  when: ansible_os_family == "Debian"
+  tags: [docker-swarm]
+
+- name: "Docker Swarm - Flush existing firewall rules"
+  iptables:
+    flush: true
+
+- name: "Docker Swarm - Firewall rule - allow port ping traffic"
+  iptables:
+    chain: INPUT
+    jump: ACCEPT
+    protocol: icmp
+
+- name: "Docker Swarm - Firewall rule - allow port 22/SSH traffic"
+  iptables:
+    chain: INPUT
+    destination_port: 22
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 80/HTTP traffic"
+  iptables:
+    chain: INPUT
+    destination_port: 80
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 443/HTTPS traffic"
+  iptables:
+    chain: INPUT
+    destination_port: 443
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 2376/tcp docker swarm"
+  iptables:
+    chain: INPUT
+    destination_port: 2376
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 2377/tcp docker swarm"
+  iptables:
+    chain: INPUT
+    destination_port: 2377
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 7946/tcp docker swarm"
+  iptables:
+    chain: INPUT
+    destination_port: 7946
+    jump: ACCEPT
+    protocol: tcp
+
+- name: "Docker Swarm - Firewall rule - allow port 7946/udp docker swarm"
+  iptables:
+    chain: INPUT
+    destination_port: 7946
+    jump: ACCEPT
+    protocol: udp
+
+- name: "Docker Swarm - Firewall rule - allow port 4789/udp docker swarm"
+  iptables:
+    chain: INPUT
+    destination_port: 4789
+    jump: ACCEPT
+    protocol: udp
+
+- name: "Docker Swarm - Firewall rule - drop any traffic without rule"
+  iptables:
+    chain: INPUT
+    jump: DROP
+
+- name: "Docker Swarm - Flush existing firewall rules"
+  iptables:
+    flush: true

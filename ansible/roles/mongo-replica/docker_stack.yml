@@ -1,0 +1,124 @@
+version: "3.3"
+networks:
+  mongo:
+    external: true
+  mongos:
+    external: true
+
+services:
+
+  d-01:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/db-01:/data/db
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == d-01
+
+  d-02:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/db-02:/data/db
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == d-02
+
+  d-03:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/db-03:/data/db
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == d-03
+
+
+  c-01:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/config-01:/data/db
+    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == c-01
+
+  c-02:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/config-02:/data/db
+    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == c-02
+
+  c-03:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+    volumes:
+      - /data/config-03:/data/db
+    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == c-03
+
+
+  m-01:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+      - mongos
+    ports:
+      - "27117:27017"
+    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == m-01
+
+  m-02:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongo
+      - mongos
+    ports:
+      - "27217:27017"
+    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --port 27017 --noauth
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.mongo.replica == m-02

@@ -1,0 +1,18 @@
+hosts: [
+  { host_ip: "10.100.198.200", host_name: "cd"},
+  
+  { host_ip: "10.100.192.201", host_name: "manager-01"},
+  { host_ip: "10.100.192.202", host_name: "manager-02"},
+  
+  { host_ip: "10.100.193.201", host_name: "data-01"},
+  { host_ip: "10.100.193.202", host_name: "data-02"},
+  { host_ip: "10.100.193.203", host_name: "data-03"},
+
+  { host_ip: "10.100.194.201", host_name: "config-01"},
+  { host_ip: "10.100.194.202", host_name: "config-02"},
+  { host_ip: "10.100.194.203", host_name: "config-03"},
+
+  { host_ip: "10.100.195.201", host_name: "mongo-01"},
+  { host_ip: "10.100.195.202", host_name: "mongo-02"}
+
+]

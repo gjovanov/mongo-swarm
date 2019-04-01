@@ -1,0 +1,23 @@
+- name: Docker Compose (Debian) - Installing python pre-req packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - 'build-essential'
+    - 'libffi-dev'
+    - 'libssl-dev'
+    - 'python-dev'
+    - 'python-pip'
+    - 'python-setuptools'
+  when: ansible_os_family == "Debian"
+  tags: [docker]
+
+- name: Docker Compose - Installing docker-compose
+  pip:
+    name: "{{ item }}"
+    state: present
+  become: true
+  with_items:
+    - 'docker-compose'
+  tags: [docker]

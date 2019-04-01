@@ -1,0 +1,13 @@
+- include: alpine_jq.yml
+  when: ansible_os_family == "Alpine"
+
+- include: debian_jq.yml
+  when: ansible_os_family == "Debian"
+
+- name: Hosts - Ensuring host is present
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^{{ item.host_ip }}"
+    line: "{{ item.host_ip }} {{ item.host_name }}"
+  with_items: "{{ hosts }}"
+  tags: [common]

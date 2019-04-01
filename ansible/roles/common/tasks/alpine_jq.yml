@@ -1,0 +1,5 @@
+- name: JQ Alpine - Ensuring JQ is present
+  apk:
+    name: jq
+    force: yes
+  tags: [common]

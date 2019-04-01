@@ -1,0 +1,5 @@
+- name: JQ Debian - Ensuring JQ is present
+  apt:
+    name: jq
+    force: yes
+  tags: [common]
