@@ -1,3 +1,4 @@
+![MongoSwarm](MongoSwarm.png)
 # Intro
 Using this repo, you can create MongoDB Replicas/Shards inside a Docker Swarm with the following VMs:
 
