@@ -1,12 +1,12 @@
 ![MongoSwarmSummary](MongoSwarm-Summary.png)
 # Intro
-Using this repo, you can automate the creation process of MongoDB ReplicaSets (optionally with Sharding Enabled) deployed inside a Docker Swarm using Vagrant (VirtualBox) and Ansible creating the following High Availablity architecture of VMs:
+Using this repo, you can automate the creation process of MongoDB ReplicaSets (optionally with Sharding Enabled) deployed inside a Docker Swarm using Vagrant (VirtualBox) and Ansible, bootstrapping the following High Availablity architecture of VMs:
 
-**cd**: Continous Delivery VM via which software is installed on the other VMs (Docker, Docker Swarm, Mongo, App etc)
-**manager-01, manager-02**: 2x VMs for Docker Managers (manager-01 being the primary)
-**data-01, data-02, data-03**: 3x VMs for storing data in the Mongo Data Instances (Replica Sets/Shards)
-**config-01, config-02, config-03**: 3x VMs for Mongo Config Instances
-**mongo-01, mongo-02**: 2x VMs for Mongo Instances (Router instances)
+- **cd**: Continous Delivery VM via which software is installed on the other VMs (Docker, Docker Swarm, Mongo, App etc)
+- **manager-01, manager-02**: 2x VMs for Docker Managers (manager-01 being the primary)
+- **data-01, data-02, data-03**: 3x VMs for storing data in the Mongo Data Instances (Replica Sets/Shards)
+- **config-01, config-02, config-03**: 3x VMs for Mongo Config Instances
+- **mongo-01, mongo-02**: 2x VMs for Mongo Instances (Router instances)
 
 # Networks
 - VM private network: 10.100.198.200, 10.100.193.20[1-2], 10.100.194.20[1-3], 10.100.194.20[1-3], 10.100.195.20[1-2]
