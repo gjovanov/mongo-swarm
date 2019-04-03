@@ -1,6 +1,6 @@
 ![MongoSwarmSummary](MongoSwarm-Summary.png)
 # Intro
-Using this repo, you can automate the creation process of MongoDB ReplicaSets (optionally with Sharding Enabled) deployed inside a Docker Swarm using Vagrant (VirtualBox) and Ansible, bootstrapping the following High Availablity architecture of VMs:
+Using this repo, you can automate the creation process of MongoDB ReplicaSets (optionally with Sharding Enabled) deployed inside a Docker Swarm using Vagrant (VirtualBox) and Ansible, bootstrapping the following High-Availablity architecture of VMs ready for production use:
 
 - **cd**: Continous Delivery VM via which software is installed on the other VMs (Docker, Docker Swarm, Mongo, App etc)
 - **manager-01, manager-02**: 2x VMs for Docker Managers (manager-01 being the primary)
