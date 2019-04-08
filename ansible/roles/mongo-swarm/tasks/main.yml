@@ -7,5 +7,5 @@
 - include: docker_stack.yml
   when: mongo_swarm_role_enabled
 
-- include: mongo_replicaset.yml
+- include: mongo_swarm.yml
   when: mongo_swarm_role_enabled
