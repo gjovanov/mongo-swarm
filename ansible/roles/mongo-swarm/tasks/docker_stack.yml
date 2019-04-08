@@ -1,11 +1,11 @@
-- name: Mongo Replica - Checking Mongo Docker Stack
+- name: Mongo Swarm - Checking Mongo Docker Stack
   shell: >
         docker stack ls | awk '{ if ($1 == "mongo") { print $1 } }'
   changed_when: false
   register: "mongo_stack"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Deploying Mongo Docker Stack
-  shell: "docker stack deploy --compose-file /vagrant/ansible/roles/mongo-replica/docker_stack.yml mongo"
+- name: Mongo Swarm - Deploying Mongo Docker Stack
+  shell: "docker stack deploy --compose-file /vagrant/ansible/roles/mongo-swarm/docker_stack.yml mongo"
   when: mongo_stack.stdout != 'mongo' and inventory_hostname == docker_swarm_primary_manager
-  tags: [mongo-replica]
+  tags: [mongo-swarm]

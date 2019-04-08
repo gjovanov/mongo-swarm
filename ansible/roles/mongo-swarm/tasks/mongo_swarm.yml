@@ -1,91 +1,94 @@
-- name: Mongo Replica - Check c-01 service
+- name: Mongo Swarm - Check c-01 service
   shell: >
         docker ps -qf label=com.docker.swarm.service.name=mongo_c-01 | awk '{ print $0 }'
   changed_when: false
   register: "c_01"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Initialize <<configrs>> status
+- name: Mongo Swarm - Initialize <<configrs>> status
   shell: >
         docker exec -it {{ c_01.stdout }} bin/bash -c "echo 'rs.status()' | mongo"
   changed_when: false
   register: "c_status"
   when: c_01.stdout != ""
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ c_status and c_status.stdout }}"
   when: c_01.stdout != ""
 
-- name: Mongo Replica - Initialize <<configrs>> replicaset
+- name: Mongo Swarm - Initialize <<configrs>> replicaset
   shell: >
         docker exec -it {{ c_01.stdout }} bin/bash -c "echo 'rs.initiate({_id: \"configrs\", configsvr: true, members: [{ _id: 0, host: \"c-01:27017\" }, { _id: 1, host: \"c-02:27017\" }, { _id: 2, host: \"c-03:27017\" }]})' | mongo"
   changed_when: false
   register: "c_result"
   when: c_01.stdout != "" and 'c-01:27017' not in c_status.stdout
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ c_result and c_result.stdout }}"
   when: c_01.stdout != "" and 'c-01:27017' not in c_status.stdout
+  tags: [mongo-swarm]
 
 
-
-- name: Mongo Replica - Check d-01 service
+- name: Mongo Swarm - Check d-01 service
   shell: >
         docker ps -qf label=com.docker.swarm.service.name=mongo_d-01 | awk '{ print $0 }'
   changed_when: false
   register: "d_01"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Initialize <<datars>> status
+- name: Mongo Swarm - Initialize <<datars>> status
   shell: >
         docker exec -it {{ d_01.stdout }} bin/bash -c "echo 'rs.status()' | mongo"
   changed_when: false
   register: "d_status"
   when: d_01.stdout != ""
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ d_status and d_status.stdout }}"
   when: d_01.stdout != ""
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Initialize <<datars>> replicaset
+- name: Mongo Swarm - Initialize <<datars>> replicaset
   shell: >
         docker exec -it {{ d_01.stdout }} bin/bash -c "echo 'rs.initiate({ _id: \"datars\", members: [{ _id: 0, host: \"d-01:27017\" }, { _id: 1, host: \"d-02:27017\" }, { _id: 2, host: \"d-03:27017\" }]})' | mongo"
   changed_when: false
   register: "d_result"
   when: d_01.stdout != "" and 'd-01:27017' not in d_status.stdout
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ d_result and d_result.stdout }}"
   when: d_01.stdout != "" and 'd-01:27017' not in d_status.stdout
+  tags: [mongo-swarm]
 
 
-
-- name: Mongo Replica - Check m-01 service
+- name: Mongo Swarm - Check m-01 service
   shell: >
         docker ps -qf label=com.docker.swarm.service.name=mongo_m-01 | awk '{ print $0 }'
   changed_when: false
   register: "m_01"
   when: enable_shards
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Initialize Shard status
+- name: Mongo Swarm - Initialize Shard status
   shell: >
         docker exec -it {{ m_01.stdout }} bin/bash -c "echo 'sh.status()' | mongo"
   changed_when: false
   register: "sh_status"
   when: enable_shards and m_01.stdout != ""
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ sh_status and sh_status.stdout }}"
   when: m_01.stdout != ""
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Initialize Shard
+- name: Mongo Swarm - Initialize Shard
   shell: >
         docker exec -it {{ m_01.stdout }} bin/bash -c "echo 'sh.addShard(\"datars/d-01\")' | mongo"
   changed_when: false
   register: "sh_result"
   when: enable_shards and m_01.stdout != "" and 'datars/d-01' not in sh_status.stdout
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
 - debug: msg="{{ sh_result and sh_result.stdout }}"
   when: enable_shards and m_01.stdout != "" and 'datars/d-01' not in sh_status.stdout
+  tags: [mongo-swarm]

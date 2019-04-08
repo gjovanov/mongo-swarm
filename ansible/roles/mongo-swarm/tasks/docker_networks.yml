@@ -1,23 +1,23 @@
-- name: Mongo Replica - check <<mongo>> Docker Network exists
+- name: Mongo Swarm - check <<mongo>> Docker Network exists
   shell: >
         docker network ls | awk '{ if ($2 == "mongo") { print $2 } }'
   changed_when: false
   register: "mongo_network"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Create missing Docker network <<mongo>>
+- name: Mongo Swarm - Create missing Docker network <<mongo>>
   shell: "docker network create --attachable --driver=overlay --subnet 11.0.0.0/24 mongo"
   when: mongo_network.stdout != 'mongo' and inventory_hostname == docker_swarm_primary_manager
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - check <<mongos>> Docker Network exists
+- name: Mongo Swarm - check <<mongos>> Docker Network exists
   shell: >
         docker network ls | awk '{ if ($2 == "mongos") { print $2 } }'
   changed_when: false
   register: "mongos_network"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Create missing Docker network <<mongos>>
+- name: Mongo Swarm - Create missing Docker network <<mongos>>
   shell: "docker network create --attachable --driver=overlay --subnet 12.0.0.0/24 mongos"
   when: mongos_network.stdout != 'mongos' and inventory_hostname == docker_swarm_primary_manager
-  tags: [mongo-replica]
+  tags: [mongo-swarm]

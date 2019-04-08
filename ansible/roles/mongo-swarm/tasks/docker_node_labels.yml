@@ -1,4 +1,4 @@
-- name: Mongo Replica - Checking Docker Node labels
+- name: Mongo Swarm - Checking Docker Node labels
   shell: |
            docker node ls -q | \
            xargs docker node inspect -f \
@@ -9,13 +9,13 @@
   become: true
   when: >
         inventory_hostname == docker_swarm_primary_manager
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
 
-- name: Mongo Replica - Adding Docker Node lables for Mongo instances
+- name: Mongo Swarm - Adding Docker Node lables for Mongo instances
   shell: "docker node update --label-add mongo.replica={{ hostvars[item]['mongo'] }} $(docker node ls -q -f name={{ hostvars[item]['swarm'] }})"
   changed_when: false
   become: true
   when: >
         inventory_hostname == docker_swarm_primary_manager and 'mongo.replica' not in docker_node_labels
   with_items: "{{ groups['swarm-workers'] }}"
-  tags: [mongo-replica]
+  tags: [mongo-swarm]
