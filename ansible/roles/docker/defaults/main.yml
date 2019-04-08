@@ -3,3 +3,5 @@ docker_compose: true
 
 docker_users:
   - vagrant
+
+docker_role_enabled: true

@@ -1,17 +1,20 @@
 - include: alpine.yml
-  when: ansible_os_family == "Alpine"
+  when: docker_role_enabled and ansible_os_family == "Alpine"
 
 - include: debian.yml
-  when: ansible_os_family == "Debian"
+  when: docker_role_enabled and ansible_os_family == "Debian"
 
 - include: docker_started.yml
+  when: docker_role_enabled
 
 - include: users.yml
   when: >
+      docker_role_enabled and
       docker_config_users is defined and
       docker_config_users
 
 - include: docker_compose.yml
   when: >
+        docker_role_enabled and
         docker_compose is defined and
         docker_compose

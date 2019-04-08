@@ -6,3 +6,5 @@ docker_swarm_port: 2377
 docker_swarm_managers_ansible_group: 'swarm-managers'
 docker_swarm_workers_ansible_group: 'swarm-workers'
 docker_swarm_primary_manager: '{{ groups[docker_swarm_managers_ansible_group][0] }}'
+
+docker_swarm_role_enabled: true

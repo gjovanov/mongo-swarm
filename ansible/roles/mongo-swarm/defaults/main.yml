@@ -5,3 +5,4 @@ mongo_docker_image: 'mongo:4.1.7-xenial'
 docker_networks: ['mongo', 'mongos']
 
 enable_shards: true
+mongo_swarm_role_enabled: true

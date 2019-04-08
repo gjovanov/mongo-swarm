@@ -1,4 +1,4 @@
-![MongoSwarmSummary](MongoSwarm-Summary.png)
+![MongoSwarmBootstrap](MongoSwarm-Bootstrap.png)
 # Intro
 Using this repo, you can automate the creation process of MongoDB ReplicaSets (optionally with Sharding Enabled) deployed inside a Docker Swarm using Vagrant (VirtualBox) and Ansible, bootstrapping the following High-Availablity architecture of VMs ready for production use:
 
@@ -29,8 +29,7 @@ Using this repo, you can automate the creation process of MongoDB ReplicaSets (o
 
 - **manager-01**: Primary docker manager node 
   - **IP**: 10.100.192.201, **NETMASK**: 255.255.0.0
-- **manager-01**
-  - Secondary docker manager node 
+- **manager-02**: Secondary docker manager node 
   - **IP**: 10.100.192.202, **NETMASK**: 255.255.0.0
 
 - **data-01**: First data node - **datars** replica set with shards optionally

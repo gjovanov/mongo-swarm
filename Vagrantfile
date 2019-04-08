@@ -64,6 +64,8 @@ Vagrant.configure(2) do |config|
     d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
     d.vm.provision :shell, inline: "sudo /etc/init.d/networking restart"
     d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/docker.yml -i /vagrant/ansible/hosts/cluster"
+    d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/swarm.yml -i /vagrant/ansible/hosts/cluster"
+    d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/mongo.yml -i /vagrant/ansible/hosts/cluster"
     d.vm.provider "virtualbox" do |v|
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]            
       v.memory = 1536

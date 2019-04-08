@@ -1,3 +1,4 @@
 #- include: iptables_setup.yml
 
 - include: docker_swarm_init.yml
+  when: docker_swarm_role_enabled

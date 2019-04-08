@@ -1,0 +1,11 @@
+- include: docker_networks.yml
+  when: mongo_swarm_role_enabled
+
+- include: docker_node_labels.yml
+  when: mongo_swarm_role_enabled
+
+- include: docker_stack.yml
+  when: mongo_swarm_role_enabled
+
+- include: mongo_replicaset.yml
+  when: mongo_swarm_role_enabled

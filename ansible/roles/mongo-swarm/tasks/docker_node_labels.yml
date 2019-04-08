@@ -16,6 +16,6 @@
   changed_when: false
   become: true
   when: >
-        inventory_hostname == docker_swarm_primary_manager
+        inventory_hostname == docker_swarm_primary_manager and 'mongo.replica' not in docker_node_labels
   with_items: "{{ groups['swarm-workers'] }}"
   tags: [mongo-replica]
