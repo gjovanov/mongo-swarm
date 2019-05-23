@@ -19,7 +19,6 @@ docker run -d \
     --name mongo-log-api \
     --hostname mongo-log-api \
     --restart always \
-    -e API_URL=https://facer.xplorify.net \
     -p 8080:8080 \
     gjovanov/mongo-log-api
 ```

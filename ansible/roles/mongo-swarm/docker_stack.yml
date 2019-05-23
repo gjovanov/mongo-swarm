@@ -134,4 +134,4 @@ services:
       replicas: 2
       placement:
         constraints:
-          - node.labels.app.replica == app
+          - node.labels.app.replica == yes
