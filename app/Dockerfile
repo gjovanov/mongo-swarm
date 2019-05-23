@@ -23,7 +23,7 @@ RUN apk add --update --no-cache --virtual .build-deps \
 
 WORKDIR /mongo-swarm/app
 
-EXPOSE 3000
+EXPOSE 8080
 
 # Define the Run command
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "prod"]
