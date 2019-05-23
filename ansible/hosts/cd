@@ -13,5 +13,5 @@
 10.100.194.201 swarm=config-01 mongo=c-01
 10.100.194.202 swarm=config-02 mongo=c-02
 10.100.194.203 swarm=config-03 mongo=c-03
-10.100.195.201 swarm=mongo-01 mongo=m-01
-10.100.195.202 swarm=mongo-02 mongo=m-02
+10.100.195.201 swarm=mongo-01 mongo=m-01 app=app
+10.100.195.202 swarm=mongo-02 mongo=m-02 app=app

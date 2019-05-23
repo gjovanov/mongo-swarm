@@ -124,7 +124,7 @@ services:
           - node.labels.mongo.replica == m-02
 
   app:
-    image: mongo:4.1.7-xenial
+    image: gjovanov/mongo-api-log
     networks:
       - mongos
     ports:
@@ -134,5 +134,4 @@ services:
       replicas: 2
       placement:
         constraints:
-          - node.labels.mongo.replica == m-01
-          - node.labels.mongo.replica == m-02
+          - node.labels.app.replica == app
