@@ -122,3 +122,17 @@ services:
       placement:
         constraints:
           - node.labels.mongo.replica == m-02
+
+  app:
+    image: mongo:4.1.7-xenial
+    networks:
+      - mongos
+    ports:
+      - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.mongo.replica == m-01
+          - node.labels.mongo.replica == m-02
