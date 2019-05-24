@@ -134,7 +134,7 @@ services:
       - "8080:8080"
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
           - node.labels.app.replica == yes
