@@ -27,7 +27,7 @@ services:
       - mongo
     volumes:
       - /data/db-02:/data/db
-    command: mongod --shardsvr --replSet datars --dbpath /data/db ----bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
