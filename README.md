@@ -80,6 +80,12 @@ Using this repo, you can automate the creation process of MongoDB ReplicaSets (o
 - VirtualBox installed
 - Vagrant installed
 
+The following ports are available on the Host where you deploy these VMs:
+- port: 8091 mapped to mongo-01:8080 (mongo log API app)
+- port: 8092 mapped to mongo-02:8080 (mongo log API app)
+- port: 27018 mapped to mongo-01:27017
+- port: 27019 mapped to mongo-02:27017
+
 In addition, you need to create the Shared folders (between the Physical Host and your VMs) that will be used as Docker Volumes:
 - `/data/db-01` - data-01 Volume
 - `/data/db-02` - data-02 Volume
@@ -105,3 +111,22 @@ e.g. `mkdir db-01 db-02 db-03 config-01 config-02 config-03 & chmod 666 db-* con
 # Initialize Mongo Replicas/Shards
 1. `vagrant ssh cd` -> login (ssh) to cd VM in order to bootstrap the Docker Swarm setup [skip this step if your are still logged in to cd VM]
 2. `ansible-playbook /vagrant/ansible/mongo.yml -i /vagrant/ansible/hosts/cluster`
+
+# Test Write to and Read from the Mongo Cluster
+You can test the Write/Read to the Mongo Cluster, you can use the deployed Mongo Log API NodeJS app from the docker repository `gjovanov/mongo-log-api`, also available in the /app folder.
+
+This API app is deployed in the cluster on VMs mongo-01 and mongo-02 via the same docker stack file: `/ansible/roles/mongo-swarm/docker_stack.yml`
+
+## Write
+`curl -d '{ }' -H "Content-Type: application/json" -X POST http://localhost:8091/api/log/write`
+
+## Read
+`curl http://localhost:8091/api/log/read?size=20`
+
+## Mongos connection string in MongooseJS
+```javascript
+const db = mongoose.createConnection('mongodb://m-01:27017/log,m-02:27017/log', {
+    family: 4, // this is important as it default is IPv6 and it slows down drastically (DNS lookup)
+    useNewUrlParser: true
+})
+```
