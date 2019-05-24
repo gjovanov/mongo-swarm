@@ -13,7 +13,7 @@ services:
       - mongo
     volumes:
       - /data/db-01:/data/db
-    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -27,7 +27,7 @@ services:
       - mongo
     volumes:
       - /data/db-02:/data/db
-    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -41,7 +41,7 @@ services:
       - mongo
     volumes:
       - /data/db-03:/data/db
-    command: mongod --shardsvr --replSet datars --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --shardsvr --replSet datars --dbpath /data/db bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -56,7 +56,7 @@ services:
       - mongo
     volumes:
       - /data/config-01:/data/db
-    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --configsvr --replSet configrs --dbpath /data/db bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -70,7 +70,7 @@ services:
       - mongo
     volumes:
       - /data/config-02:/data/db
-    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --configsvr --replSet configrs --dbpath /data/db bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -84,7 +84,7 @@ services:
       - mongo
     volumes:
       - /data/config-03:/data/db
-    command: mongod --configsvr --replSet configrs --dbpath /data/db --bind_ip 0.0.0.0 --port 27017 --noauth
+    command: mongod --configsvr --replSet configrs --dbpath /data/db bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -100,7 +100,7 @@ services:
       - mongos
     ports:
       - "27117:27017"
-    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --port 27017 --noauth
+    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -115,7 +115,7 @@ services:
       - mongos
     ports:
       - "27217:27017"
-    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --port 27017 --noauth
+    command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
       replicas: 1
@@ -124,7 +124,7 @@ services:
           - node.labels.mongo.replica == m-02
 
   app:
-    image: gjovanov/mongo-api-log
+    image: gjovanov/mongo-log-api
     depends_on:
       - m-01
       - m-02

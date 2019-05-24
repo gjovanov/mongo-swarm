@@ -49,6 +49,8 @@ Vagrant.configure(2) do |config|
     config.vm.define "mongo-#{i.to_s.rjust(2, "0")}" do |d|
       d.vm.box = "ubuntu/xenial64"
       d.vm.network "private_network", ip: "10.100.195.2#{i.to_s.rjust(2, "0")}", netmask: "255.255.0.0"
+      d.vm.network "forwarded_port", guest: 8080, host: "#{ i + 8090 }"
+      d.vm.network "forwarded_port", guest: 27017, host: "#{ i + 27017 }"
       d.vm.hostname = "mongo-#{i.to_s.rjust(2, "0")}"
       d.vm.provision :shell, inline: "sudo apt-get install -y python"
       d.vm.provider "virtualbox" do |v|
