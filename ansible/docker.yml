@@ -1,4 +1,4 @@
-- hosts: localhost:swarm-managers:swarm-workers
+- hosts: localhost:swarm_managers:swarm_workers
   remote_user: vagrant
   serial: 1
   roles:

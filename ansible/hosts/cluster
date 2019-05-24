@@ -1,12 +1,12 @@
 [localhost]
 127.0.0.1 ansible_connection=local
 
-[swarm-managers]
+[swarm_managers]
 10.100.192.201 swarm=manager-01
 10.100.192.202 swarm=manager-02
 
 
-[swarm-workers]
+[swarm_workers]
 10.100.193.201 swarm=data-01 mongo=d-01 app=no
 10.100.193.202 swarm=data-02 mongo=d-02 app=no
 10.100.193.203 swarm=data-03 mongo=d-03 app=no

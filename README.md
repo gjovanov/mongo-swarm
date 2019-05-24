@@ -125,7 +125,7 @@ This API app is deployed in the cluster on VMs mongo-01 and mongo-02 via the sam
 
 ## Mongos connection string in MongooseJS
 ```javascript
-const db = mongoose.createConnection('mongodb://m-01:27017/log,m-02:27017/log', {
+const db = mongoose.createConnection('mongodb://m-01:27017,m-02:27017/log', {
     family: 4, // this is important as it default is IPv6 and it slows down drastically (DNS lookup)
     useNewUrlParser: true
 })
