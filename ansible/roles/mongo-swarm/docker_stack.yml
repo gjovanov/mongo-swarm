@@ -113,6 +113,7 @@ services:
     networks:
       - mongo
       - mongos
+      - host
     ports:
       - "27217:27017"
     command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --bind_ip_all --port 27017 --noauth
