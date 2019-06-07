@@ -123,10 +123,38 @@ This API app is deployed in the cluster on VMs mongo-01 and mongo-02 via the sam
 ## Read
 `curl http://localhost:8091/api/log/read?size=20`
 
-## Mongos connection string in MongooseJS
+## Mongos connection string in MongooseJS (inside the cluster)
 ```javascript
 const db = mongoose.createConnection('mongodb://m-01:27017,m-02:27017/log', {
     family: 4, // this is important as it default is IPv6 and it slows down drastically (DNS lookup)
     useNewUrlParser: true
 })
 ```
+
+## Connecting from the Host Terminal
+`mongo "mongodb://mongo-01:27017,mongo-02:27017/log"`
+
+## Fixing Mongo and Mongos Network Subnet Mask from 255.255.255.0 to 255.255.0.0
+In case you have some of the old versions of this repo, when Mongo and Mongos Networks were created with Subnet Mask:
+`255.255.255.0`
+
+You will need to manually fix this.
+
+To check if you have old subnet masks run:
+`ifconfig`
+
+e.g. the output can look like this:
+```
+vboxnet0  Link encap:Ethernet  HWaddr 0a:00:27:00:00:00
+          inet addr:10.100.198.1  Bcast:10.100.255.255  Mask:255.255.255.0
+          inet6 addr: fe80::800:27ff:fe00:0/64 Scope:Link
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:331 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:27054 (27.0 KB)
+```
+To fix it you will need to run:
+`vboxmanage hostonlyif ipconfig vboxnet0 --ip 10.100.198.1 --netmask 255.255.0.0`
+
+You will need to run for all vboxnet networks with mask `255.255.255.0`

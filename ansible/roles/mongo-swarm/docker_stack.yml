@@ -100,6 +100,11 @@ services:
       - mongos
     ports:
       - "27117:27017"
+      - target: 27017
+        published: 27017
+        protocol: tcp
+        mode: host
+
     command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
@@ -113,9 +118,13 @@ services:
     networks:
       - mongo
       - mongos
-      - host
     ports:
       - "27217:27017"
+      - target: 27017
+        published: 27017
+        protocol: tcp
+        mode: host
+
     command: mongos --configdb configrs/c-01:27017,c-02:27017,c-03:27017 --bind_ip_all --port 27017 --noauth
     deploy:
       mode: replicated
